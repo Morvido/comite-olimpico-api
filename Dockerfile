@@ -1,5 +1,5 @@
-# Multi-stage build for Spring Boot on Render
-FROM maven:3.9.6-openjdk-21 AS build
+# Dockerfile para Spring Boot en Render - Versión 2025 con imágenes estables
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 
 # Set working directory
 WORKDIR /app
@@ -15,10 +15,10 @@ RUN chmod +x mvnw
 COPY src ./src
 
 # Build the app
-RUN ./mvnw clean package -DskipTests -Pproduction
+RUN ./mvnw clean package -DskipTests
 
 # Runtime stage
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
