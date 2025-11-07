@@ -2,9 +2,24 @@ services:
   - type: web
     name: comite-olimpico-api
     env: java
-    buildCommand: ./mvnw clean package -DskipTests
+    javaVersion: 21
+    buildCommand: mvn clean package -DskipTests
     startCommand: java -jar target/comiteolimpicoapi-1.0.0.jar
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: comite-olimpico-db
+          property: connectionString
+      - key: POSTGRES_USER
+        fromDatabase:
+          name: comite-olimpico-db
+          property: user
+      - key: POSTGRES_PASSWORD
+        fromDatabase:
+          name: comite-olimpico-db
+          property: password
+      - key: JWT_SECRET
+        value: unaClaveSuperSecretaDe64CaracteresParaProduccion1234567890
     plan: free
