@@ -1,22 +1,21 @@
-# Dockerfile para Spring Boot + Maven en Render
+# Multi-stage build for Spring Boot on Render
 FROM maven:3.9.6-openjdk-21 AS build
 
 # Set working directory
 WORKDIR /app
 
 # Copy Maven files
-COPY pom.xml .
-COPY mvnw .
-COPY .mvn .mvn
+COPY pom.xml mvnw ./
+COPY .mvn ./.mvn
 
 # Make mvnw executable
 RUN chmod +x mvnw
 
 # Copy source code
-COPY src src
+COPY src ./src
 
 # Build the app
-RUN ./mvnw clean package -DskipTests
+RUN ./mvnw clean package -DskipTests -Pproduction
 
 # Runtime stage
 FROM openjdk:21-jdk-slim
